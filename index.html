@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Movies4U - Premium Streaming</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="mainPage">
+        <header>
+            <h1>MOVIES4U<span>.ARMY</span></h1>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search 12,000+ movies...">
+                <button id="searchBtn">SEARCH</button>
+            </div>
+            <div class="home-nav">
+                <button onclick="goHome()" class="home-btn">🏠 HOME PAGE</button>
+            </div>
+        </header>
+
+        <div id="movieGrid" class="movie-grid"></div>
+
+        <div class="pagination">
+            <button id="prevBtn">← Previous</button>
+            <span id="pageStatus">Page 1</span>
+            <button id="nextBtn">Next →</button>
+        </div>
+    </div>
+
+    <div id="movieDetailsPage" style="display: none;">
+        <nav class="detail-nav">
+            <button onclick="closeDetails(true)" class="back-btn">✕ Close</button>
+        </nav>
+        <div class="detail-content">
+            <h2 id="detailTitle"></h2>
+            <div class="poster-container">
+                <img id="detailImg" src="" alt="Poster">
+                <button id="goToDownload" class="floating-download">
+                    ↓ DOWNLOAD NOW ↓
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
