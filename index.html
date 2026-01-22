@@ -7,7 +7,7 @@
     <meta name="google-site-verification" content="CvMqruakDQ3xK8114uASKY6AyUMFbq0I5POuexhosQ0" />
     <meta name="monetag" content="eb32fd97ed51eef3b357853866014337">
 
-    <title>My Movies Fun - Download HD Movies</title>
+    <title>My Movies Fun - Premium HD Streaming</title>
     
     <script src="https://quge5.com/88/tag.min.js" data-zone="204343" async data-cfasync="false"></script>
     <link rel="stylesheet" href="style.css">
@@ -31,6 +31,8 @@
                     <button class="menu-btn" onclick="loadCategory('thriller.json')">🔪 Thriller</button>
                     <button class="menu-btn" onclick="loadCategory('tv_shows.json')">📺 TV Shows</button>
                     <button class="menu-btn" onclick="loadCategory('adult.json')">🔞 18+ Adult</button>
+                    <button class="menu-btn" onclick="loadCategory('lustprime.json')">🔞 High Adult</button>
+                    
                     <div class="menu-divider"></div>
                     <button class="menu-btn" style="background: #4CAF50; color: white;" onclick="shareWebsite()">🔗 Share Website</button>
                     <button class="menu-btn" style="background: #0088cc; color: white;" onclick="window.open('https://t.me/movies4uapk', '_blank')">✈ Join Telegram</button>
@@ -59,10 +61,14 @@
     </div>
 
     <div id="movieDetailsPage" style="display: none;">
-        <nav class="detail-nav"><button onclick="closeDetails()" class="back-btn">✕ Back</button></nav>
+        <nav class="detail-nav">
+            <button onclick="closeDetails()" class="back-btn">✕ Back</button>
+        </nav>
         <div class="detail-content">
             <h2 id="detailTitle"></h2>
-            <div class="detail-img-container"><img id="detailImg" src=""></div>
+            <div class="detail-img-container">
+                <img id="detailImg" src="" alt="Poster">
+            </div>
             <button id="goToDownload" class="floating-download">↓ DOWNLOAD NOW ↓</button>
             <button id="fastServerBtn" class="floating-download fast-server">↓ FAST SERVER (HD) ↓</button>
         </div>
