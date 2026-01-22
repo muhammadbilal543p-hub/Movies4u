@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
     <meta name="google-site-verification" content="CvMqruakDQ3xK8114uASKY6AyUMFbq0I5POuexhosQ0" />
     <meta name="monetag" content="eb32fd97ed51eef3b357853866014337">
 
-    <title>MYMOVIESFUN - Premium Streaming</title>
+    <title>My Movies Fun - Download HD Movies</title>
+    
     <script src="https://quge5.com/88/tag.min.js" data-zone="204343" async data-cfasync="false"></script>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,31 +17,29 @@
         <header>
             <div class="header-top">
                 <span class="menu-icon" onclick="toggleMenu()">☰</span>
-                <h1>MYMOVIES<span>FUN</span></h1>
+                <h1>MY MOVIES <span>FUN</span></h1>
             </div>
             
             <div id="sideMenu" class="side-menu">
                 <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">×</a>
                 <div class="menu-content">
                     <h3>CATEGORIES</h3>
-                    <button onclick="loadCategory('movies_data.json'); toggleMenu()">🏠 Home (All)</button>
+                    <button onclick="loadCategory('movies_data.json'); toggleMenu()">🏠 Home</button>
                     <button onclick="loadCategory('hollywood.json'); toggleMenu()">🇺🇸 Hollywood</button>
                     <button onclick="loadCategory('south.json'); toggleMenu()">🎬 South Hindi</button>
                     <button onclick="loadCategory('horror.json'); toggleMenu()">👻 Horror</button>
                     <button onclick="loadCategory('thriller.json'); toggleMenu()">🔪 Thriller</button>
                     <button onclick="loadCategory('tv_shows.json'); toggleMenu()">📺 TV Shows</button>
                     <button onclick="loadCategory('adult.json'); toggleMenu()">🔞 18+ Adult</button>
-                    
                     <div class="menu-divider"></div>
-                    
-                    <button onclick="shareWebsite()" style="background: #4CAF50; color: white; margin-top: 10px;">🔗 Share Website</button>
+                    <button onclick="shareWebsite()" style="background: #4CAF50; color: white;">🔗 Share Website</button>
                     <button onclick="window.open('https://t.me/movies4uapk', '_blank')" style="background: #0088cc; color: white;">✈ Join Telegram</button>
                 </div>
             </div>
 
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search 12,000+ movies...">
-                <button id="searchBtn">SEARCH</button>
+                <input type="text" id="searchInput" placeholder="Search 12,000+ movies..." onkeydown="if(event.key==='Enter') performSearch()">
+                <button id="searchBtn" onclick="performSearch()">SEARCH</button>
             </div>
         </header>
 
@@ -51,23 +51,24 @@
             <button id="nextBtn" onclick="nextPage()">Next →</button>
         </div>
         
-        <footer>© 2026 MYMOVIESFUN - All Rights Reserved</footer>
+        <footer>© 2026 My Movies Fun - All Rights Reserved</footer>
     </div>
 
     <div id="movieDetailsPage" style="display: none;">
         <nav class="detail-nav">
-            <button onclick="closeDetails()" class="back-btn">✕ Back to List</button>
+            <button onclick="closeDetails()" class="back-btn">✕ Back</button>
         </nav>
         <div class="detail-content">
             <h2 id="detailTitle"></h2>
             <div class="detail-img-container">
                 <img id="detailImg" src="" alt="Poster">
-                <div class="quality-badge">Full HD Available</div>
             </div>
             <button id="goToDownload" class="floating-download">↓ DOWNLOAD NOW ↓</button>
+            <button id="fastServerBtn" class="floating-download fast-server">↓ FAST SERVER (HD) ↓</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-</html>
+    </html>
+    
