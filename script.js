@@ -4,6 +4,7 @@ let currentPage = 1;
 const moviesPerPage = 20;
 const MONETAG_SMARTLINK = "https://otieu.com/4/10489561";
 
+// Back button handling
 window.onpopstate = function(event) {
     if (document.getElementById('movieDetailsPage').style.display === "block") {
         document.getElementById('movieDetailsPage').style.display = "none";
@@ -20,12 +21,16 @@ function toggleMenu() {
 }
 
 async function loadCategory(file) {
-    const res = await fetch(`./${file}`);
-    allMovies = await res.json();
-    filteredMovies = allMovies;
-    currentPage = 1;
-    displayMovies(true);
-    if(document.getElementById("sideMenu").style.width === "280px") toggleMenu();
+    try {
+        const res = await fetch(`./${file}`);
+        allMovies = await res.json();
+        filteredMovies = allMovies;
+        currentPage = 1;
+        displayMovies(true);
+        if(document.getElementById("sideMenu").style.width === "280px") toggleMenu();
+    } catch (error) {
+        console.error("Error loading category:", error);
+    }
 }
 
 function displayMovies(updateHistory = true) {
@@ -40,7 +45,7 @@ function displayMovies(updateHistory = true) {
         const card = document.createElement('div');
         card.className = 'movie-card';
         card.innerHTML = `
-            <img src="${movie.poster}">
+            <img src="${movie.poster}" loading="lazy">
             <div class="movie-info">${movie.title}</div>
             <div class="badge-area">
                 <span class="dubbed-badge">Hindi Dubbed</span>
@@ -69,7 +74,9 @@ function openDetails(movie) {
     window.scrollTo(0, 0);
 }
 
-function closeDetails() { history.back(); }
+function closeDetails() {
+    history.back();
+}
 
 function performSearch() {
     const query = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -78,13 +85,33 @@ function performSearch() {
     displayMovies(true);
 }
 
-function nextPage() { currentPage++; displayMovies(true); window.scrollTo(0,0); }
-function prevPage() { if(currentPage > 1) { currentPage--; displayMovies(true); window.scrollTo(0,0); } }
-
-function shareWebsite() {
-    if (navigator.share) {
-        navigator.share({ title: 'My Movies Fun', url: 'https://mymoviesfun.vercel.app/?page=1' });
+function nextPage() {
+    if ((currentPage * moviesPerPage) < filteredMovies.length) {
+        currentPage++;
+        displayMovies(true);
+        window.scrollTo(0, 0);
     }
 }
 
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        displayMovies(true);
+        window.scrollTo(0, 0);
+    }
+}
+
+function shareWebsite() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'My Movies Fun',
+            text: 'Check out the latest HD movies!',
+            url: 'https://mymoviesfun.vercel.app/?page=1'
+        });
+    } else {
+        alert("Copy this link: https://mymoviesfun.vercel.app/?page=1");
+    }
+}
+
+// Initial Load
 loadCategory('movies_data.json');
