@@ -6,12 +6,9 @@
     <meta name="google-site-verification" content="CvMqruakDQ3xK8114uASKY6AyUMFbq0I5POuexhosQ0" />
     <meta name="monetag" content="eb32fd97ed51eef3b357853866014337">
 
-    <title>MyMoviesFun - Download Latest Movies & Web Series HD</title>
-    
+    <title>MyMoviesFun - Download Latest Movies</title>
     <script src="https://quge5.com/88/tag.min.js" data-zone="204343" async data-cfasync="false"></script>
-
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="mainPage">
@@ -24,17 +21,16 @@
             <div id="sideMenu" class="side-menu">
                 <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">×</a>
                 <div class="menu-content">
-                    <h3>MAIN MENU</h3>
-                    <button onclick="loadCategory('movies_data.json'); toggleMenu()">🏠 Home (All Movies)</button>
+                    <h3>CATEGORIES</h3>
+                    <button onclick="loadCategory('movies_data.json'); toggleMenu()">🏠 Home</button>
+                    <button onclick="loadCategory('hollywood.json'); toggleMenu()">🇺🇸 Hollywood</button>
                     <button onclick="loadCategory('south.json'); toggleMenu()">🎬 South Hindi</button>
                     <button onclick="loadCategory('horror.json'); toggleMenu()">👻 Horror</button>
                     <button onclick="loadCategory('thriller.json'); toggleMenu()">🔪 Thriller</button>
                     <button onclick="loadCategory('tv_shows.json'); toggleMenu()">📺 TV Shows</button>
                     <button onclick="loadCategory('adult.json'); toggleMenu()">🔞 18+ Adult</button>
-                    
                     <div class="menu-divider"></div>
-                    
-                    <button onclick="shareWebsite()" style="background: #4CAF50; color: white; margin-top: 10px;">🔗 Share Website</button>
+                    <button onclick="shareWebsite()" style="background: #4CAF50; color: white;">🔗 Share Website</button>
                     <button onclick="window.open('https://t.me/movies4uapk', '_blank')" style="background: #0088cc; color: white;">✈ Join Telegram</button>
                 </div>
             </div>
@@ -48,31 +44,21 @@
         <div id="movieGrid" class="movie-grid"></div>
 
         <div class="pagination">
-            <button id="prevBtn">← Prev</button>
+            <button id="prevBtn" onclick="prevPage()">← Prev</button>
             <span id="pageStatus">Page 1</span>
-            <button id="nextBtn">Next →</button>
+            <button id="nextBtn" onclick="nextPage()">Next →</button>
         </div>
-
-        <footer>
-            <p>© 2026 MyMoviesFun - All Rights Reserved</p>
-        </footer>
     </div>
 
     <div id="movieDetailsPage" style="display: none;">
-        <nav class="detail-nav">
-            <button onclick="closeDetails(true)" class="back-btn">✕ Close</button>
-        </nav>
+        <nav class="detail-nav"><button onclick="closeDetails()" class="back-btn">✕ Back</button></nav>
         <div class="detail-content">
             <h2 id="detailTitle"></h2>
-            <div class="poster-container">
-                <img id="detailImg" src="" alt="Poster">
-                <button id="goToDownload" class="floating-download">↓ DOWNLOAD NOW ↓</button>
-                <button id="server2Btn" class="floating-download" style="background:#2196F3; margin-top:10px;">🚀 FAST SERVER (HD)</button>
-            </div>
+            <img id="detailImg" src="">
+            <button id="goToDownload" class="floating-download">↓ DOWNLOAD NOW ↓</button>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
-                    </html>
-                    
+    </html>
+    
