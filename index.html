@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <meta name="google-site-verification" content="CvMqruakDQ3xK8114uASKY6AyUMFbq0I5POuexhosQ0" />
-
     <meta name="monetag" content="eb32fd97ed51eef3b357853866014337">
 
     <title>MyMoviesFun - Download Latest Movies & Web Series HD</title>
-    <meta name="description" content="Download 12,000+ Hindi dubbed movies and web series in Full HD on MyMoviesFun. Best source for free movie downloads.">
-
+    
     <script src="https://quge5.com/88/tag.min.js" data-zone="204343" async data-cfasync="false"></script>
 
     <link rel="stylesheet" href="style.css">
@@ -19,13 +16,32 @@
 <body>
     <div id="mainPage">
         <header>
-            <h1>MYMOVIES<span>FUN</span></h1>
+            <div class="header-top">
+                <span class="menu-icon" onclick="toggleMenu()">☰</span>
+                <h1>MYMOVIES<span>FUN</span></h1>
+            </div>
+            
+            <div id="sideMenu" class="side-menu">
+                <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">×</a>
+                <div class="menu-content">
+                    <h3>MAIN MENU</h3>
+                    <button onclick="loadCategory('movies_data.json'); toggleMenu()">🏠 Home (All Movies)</button>
+                    <button onclick="loadCategory('south.json'); toggleMenu()">🎬 South Hindi</button>
+                    <button onclick="loadCategory('horror.json'); toggleMenu()">👻 Horror</button>
+                    <button onclick="loadCategory('thriller.json'); toggleMenu()">🔪 Thriller</button>
+                    <button onclick="loadCategory('tv_shows.json'); toggleMenu()">📺 TV Shows</button>
+                    <button onclick="loadCategory('adult.json'); toggleMenu()">🔞 18+ Adult</button>
+                    
+                    <div class="menu-divider"></div>
+                    
+                    <button onclick="shareWebsite()" style="background: #4CAF50; color: white; margin-top: 10px;">🔗 Share Website</button>
+                    <button onclick="window.open('https://t.me/movies4uapk', '_blank')" style="background: #0088cc; color: white;">✈ Join Telegram</button>
+                </div>
+            </div>
+
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Search movies...">
                 <button id="searchBtn">SEARCH</button>
-            </div>
-            <div class="home-nav">
-                <button onclick="goHome()" class="home-btn">🏠 HOME PAGE</button>
             </div>
         </header>
 
@@ -37,9 +53,8 @@
             <button id="nextBtn">Next →</button>
         </div>
 
-        <footer style="text-align:center; padding: 20px; font-size: 10px; color: #555; border-top: 1px solid #222;">
+        <footer>
             <p>© 2026 MyMoviesFun - All Rights Reserved</p>
-            <p>Disclaimer: Content is provided by third parties. We do not host copyrighted files.</p>
         </footer>
     </div>
 
@@ -59,4 +74,5 @@
 
     <script src="script.js"></script>
 </body>
-</html>
+                    </html>
+                    
