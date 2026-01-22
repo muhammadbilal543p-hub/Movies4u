@@ -3,8 +3,8 @@ let filteredMovies = [];
 let currentPage = 1;
 const moviesPerPage = 20;
 
-// MONETAG SMART LINK (Jab aapko mile, yahan paste karein)
-const MONETAG_SMART_LINK = "#"; 
+// AAPKA MONETAG SMARTLINK YAHAN SET HAI
+const MONETAG_SMARTLINK = "https://otieu.com/4/10489561"; 
 
 window.addEventListener('popstate', function(event) {
     if (event.state && event.state.page === 'details') {
@@ -58,16 +58,17 @@ function openDetails(movie, cleanName, isBackNav = false) {
     sessionStorage.setItem('lastCleanName', cleanName);
     if (!isBackNav) history.pushState({page: 'details'}, "Details");
 
+    // BUTTON 1: Click par pehle Ad khulega phir movie link par jayega
     document.getElementById('goToDownload').onclick = () => {
-        window.location.href = movie.url || movie.link;
+        window.open(MONETAG_SMARTLINK, '_blank'); 
+        setTimeout(() => {
+            window.location.href = movie.url || movie.link; 
+        }, 500);
     };
 
+    // BUTTON 2: Fast Server button par sirf SmartLink ad khulega
     document.getElementById('server2Btn').onclick = () => {
-        if(MONETAG_SMART_LINK !== "#") {
-            window.open(MONETAG_SMART_LINK, '_blank');
-        } else {
-            alert("Server updating... please try Button 1");
-        }
+        window.open(MONETAG_SMARTLINK, '_blank');
     };
     window.scrollTo(0,0);
 }
@@ -90,4 +91,3 @@ function updatePagination() {
 document.getElementById('nextBtn').onclick = () => { currentPage++; displayMovies(true); };
 document.getElementById('prevBtn').onclick = () => { if(currentPage > 1) history.back(); };
 loadMovies();
-                                   
