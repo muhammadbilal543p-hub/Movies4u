@@ -4,19 +4,20 @@ let currentPage = 1;
 const moviesPerPage = 20;
 const MONETAG_SMARTLINK = "https://otieu.com/4/10489561";
 
-// Handle BACK button press
 window.onpopstate = function(event) {
-    if (event.state && event.state.view === 'details') {
-        // This shouldn't happen usually, logic handled by closeDetails
-    } else {
+    if (document.getElementById('movieDetailsPage').style.display === "block") {
         document.getElementById('movieDetailsPage').style.display = "none";
         document.getElementById('mainPage').style.display = "block";
-        if (event.state && event.state.page) {
-            currentPage = event.state.page;
-            displayMovies(false); 
-        }
+    } else if (event.state && event.state.page) {
+        currentPage = event.state.page;
+        displayMovies(false);
     }
 };
+
+function toggleMenu() {
+    const menu = document.getElementById("sideMenu");
+    menu.style.width = (menu.style.width === "280px") ? "0px" : "280px";
+}
 
 async function loadCategory(file) {
     const res = await fetch(`./${file}`);
@@ -24,16 +25,13 @@ async function loadCategory(file) {
     filteredMovies = allMovies;
     currentPage = 1;
     displayMovies(true);
+    if(document.getElementById("sideMenu").style.width === "280px") toggleMenu();
 }
 
 function displayMovies(updateHistory = true) {
     const grid = document.getElementById('movieGrid');
     grid.innerHTML = "";
-    
-    // Save current page to history
-    if (updateHistory) {
-        history.pushState({page: currentPage}, "", `?page=${currentPage}`);
-    }
+    if (updateHistory) history.pushState({page: currentPage}, "", `?page=${currentPage}`);
 
     const start = (currentPage - 1) * moviesPerPage;
     const paginated = filteredMovies.slice(start, start + moviesPerPage);
@@ -56,27 +54,22 @@ function displayMovies(updateHistory = true) {
 }
 
 function openDetails(movie) {
-    // Add detail view state to history
     history.pushState({view: 'details', page: currentPage}, ""); 
-    
     document.getElementById('detailTitle').innerText = movie.title;
     document.getElementById('detailImg').src = movie.poster;
     document.getElementById('movieDetailsPage').style.display = "block";
     document.getElementById('mainPage').style.display = "none";
-
-    const handleDownload = () => {
+    
+    const clickLink = () => {
         window.open(MONETAG_SMARTLINK, '_blank');
         setTimeout(() => { window.location.href = movie.url; }, 800);
     };
-
-    document.getElementById('goToDownload').onclick = handleDownload;
-    document.getElementById('fastServerBtn').onclick = handleDownload;
+    document.getElementById('goToDownload').onclick = clickLink;
+    document.getElementById('fastServerBtn').onclick = clickLink;
     window.scrollTo(0, 0);
 }
 
-function closeDetails() {
-    history.back(); // This triggers window.onpopstate
-}
+function closeDetails() { history.back(); }
 
 function performSearch() {
     const query = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -88,4 +81,11 @@ function performSearch() {
 function nextPage() { currentPage++; displayMovies(true); window.scrollTo(0,0); }
 function prevPage() { if(currentPage > 1) { currentPage--; displayMovies(true); window.scrollTo(0,0); } }
 
+function shareWebsite() {
+    if (navigator.share) {
+        navigator.share({ title: 'My Movies Fun', url: 'https://mymoviesfun.vercel.app/?page=1' });
+    }
+}
+
 loadCategory('movies_data.json');
+    
