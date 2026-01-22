@@ -4,14 +4,20 @@ let currentPage = 1;
 const moviesPerPage = 20;
 const MONETAG_SMARTLINK = "https://otieu.com/4/10489561";
 
-// Back button handling
+// --- Browser Back Button Control ---
 window.onpopstate = function(event) {
-    if (document.getElementById('movieDetailsPage').style.display === "block") {
-        document.getElementById('movieDetailsPage').style.display = "none";
-        document.getElementById('mainPage').style.display = "block";
-    } else if (event.state && event.state.page) {
-        currentPage = event.state.page;
-        displayMovies(false);
+    if (event.state) {
+        if (event.state.view === 'grid') {
+            // Agar detail page khula hai toh band karke grid dikhao
+            document.getElementById('movieDetailsPage').style.display = "none";
+            document.getElementById('mainPage').style.display = "block";
+            
+            // Wahi page load karo jo history mein tha
+            if (event.state.page) {
+                currentPage = event.state.page;
+                displayMovies(false); // false taake naya history state na bane
+            }
+        }
     }
 };
 
@@ -36,7 +42,11 @@ async function loadCategory(file) {
 function displayMovies(updateHistory = true) {
     const grid = document.getElementById('movieGrid');
     grid.innerHTML = "";
-    if (updateHistory) history.pushState({page: currentPage}, "", `?page=${currentPage}`);
+
+    // History save karna jab bhi page change ho (Page 7, Page 6 etc)
+    if (updateHistory) {
+        history.pushState({view: 'grid', page: currentPage}, "", `?page=${currentPage}`);
+    }
 
     const start = (currentPage - 1) * moviesPerPage;
     const paginated = filteredMovies.slice(start, start + moviesPerPage);
@@ -59,7 +69,9 @@ function displayMovies(updateHistory = true) {
 }
 
 function openDetails(movie) {
-    history.pushState({view: 'details', page: currentPage}, ""); 
+    // Detail open karte waqt ek naya state push karo taake back button detail band kare
+    history.pushState({view: 'detail', page: currentPage}, ""); 
+    
     document.getElementById('detailTitle').innerText = movie.title;
     document.getElementById('detailImg').src = movie.poster;
     document.getElementById('movieDetailsPage').style.display = "block";
@@ -75,7 +87,7 @@ function openDetails(movie) {
 }
 
 function closeDetails() {
-    history.back();
+    history.back(); // Browser back ko trigger karega jo onpopstate handle karega
 }
 
 function performSearch() {
@@ -102,16 +114,14 @@ function prevPage() {
 }
 
 function shareWebsite() {
+    const shareUrl = 'https://mymoviesfun.vercel.app/?page=' + currentPage;
     if (navigator.share) {
-        navigator.share({
-            title: 'My Movies Fun',
-            text: 'Check out the latest HD movies!',
-            url: 'https://mymoviesfun.vercel.app/?page=1'
-        });
+        navigator.share({ title: 'My Movies Fun', url: shareUrl });
     } else {
-        alert("Copy this link: https://mymoviesfun.vercel.app/?page=1");
+        alert("Link: " + shareUrl);
     }
 }
 
 // Initial Load
 loadCategory('movies_data.json');
+        
