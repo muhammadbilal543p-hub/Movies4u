@@ -7,7 +7,7 @@
     <meta name="google-site-verification" content="CvMqruakDQ3xK8114uASKY6AyUMFbq0I5POuexhosQ0" />
     <meta name="monetag" content="eb32fd97ed51eef3b357853866014337">
 
-    <title>My Movies Fun - Download HD Movies</title>
+    <title>My Movies Fun - Premium Streaming</title>
     
     <script src="https://quge5.com/88/tag.min.js" data-zone="204343" async data-cfasync="false"></script>
     <link rel="stylesheet" href="style.css">
@@ -24,22 +24,27 @@
                 <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">×</a>
                 <div class="menu-content">
                     <h3>CATEGORIES</h3>
-                    <button onclick="loadCategory('movies_data.json'); toggleMenu()">🏠 Home</button>
-                    <button onclick="loadCategory('hollywood.json'); toggleMenu()">🇺🇸 Hollywood</button>
-                    <button onclick="loadCategory('south.json'); toggleMenu()">🎬 South Hindi</button>
-                    <button onclick="loadCategory('horror.json'); toggleMenu()">👻 Horror</button>
-                    <button onclick="loadCategory('thriller.json'); toggleMenu()">🔪 Thriller</button>
-                    <button onclick="loadCategory('tv_shows.json'); toggleMenu()">📺 TV Shows</button>
-                    <button onclick="loadCategory('adult.json'); toggleMenu()">🔞 18+ Adult</button>
+                    <button class="menu-btn" onclick="loadCategory('movies_data.json'); toggleMenu()">🏠 Home</button>
+                    <button class="menu-btn" onclick="loadCategory('hollywood.json'); toggleMenu()">🇺🇸 Hollywood</button>
+                    <button class="menu-btn" onclick="loadCategory('south.json'); toggleMenu()">🎬 South Hindi</button>
+                    <button class="menu-btn" onclick="loadCategory('horror.json'); toggleMenu()">👻 Horror</button>
+                    <button class="menu-btn" onclick="loadCategory('thriller.json'); toggleMenu()">🔪 Thriller</button>
+                    <button class="menu-btn" onclick="loadCategory('tv_shows.json'); toggleMenu()">📺 TV Shows</button>
+                    <button class="menu-btn" onclick="loadCategory('adult.json'); toggleMenu()">🔞 18+ Adult</button>
+                    
                     <div class="menu-divider"></div>
-                    <button onclick="shareWebsite()" style="background: #4CAF50; color: white;">🔗 Share Website</button>
-                    <button onclick="window.open('https://t.me/movies4uapk', '_blank')" style="background: #0088cc; color: white;">✈ Join Telegram</button>
+                    <button class="menu-btn share-btn" onclick="shareWebsite()">🔗 Share Website</button>
+                    <button class="menu-btn telegram-btn" onclick="window.open('https://t.me/movies4uapk', '_blank')">✈ Join Telegram</button>
                 </div>
             </div>
 
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Search 12,000+ movies..." onkeydown="if(event.key==='Enter') performSearch()">
                 <button id="searchBtn" onclick="performSearch()">SEARCH</button>
+            </div>
+
+            <div class="nav-links">
+                <button class="home-nav-btn" onclick="window.location.href='/'">🏠 HOME PAGE</button>
             </div>
         </header>
 
@@ -70,5 +75,4 @@
 
     <script src="script.js"></script>
 </body>
-    </html>
-    
+</html>
