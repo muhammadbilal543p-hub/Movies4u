@@ -88,4 +88,3 @@ function shareWebsite() {
 }
 
 loadCategory('movies_data.json');
-    
