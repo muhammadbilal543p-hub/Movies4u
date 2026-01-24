@@ -1,29 +1,311 @@
-:root { --primary-green: #9dff47; --dark-bg: #0b0b0b; --card-bg: #1a1a1a; }
-body { margin: 0; font-family: sans-serif; background: var(--dark-bg); color: #fff; }
-header { padding: 15px; background: #111; text-align: center; border-bottom: 2px solid var(--primary-green); position: sticky; top:0; z-index: 100; }
-h1 { font-weight: 900; margin: 0; font-size: 20px; text-transform: uppercase; }
-h1 span { color: var(--primary-green); }
-.menu-icon { font-size: 30px; cursor: pointer; position: absolute; left: 15px; top: 12px; color: var(--primary-green); }
+/* --- Global Settings --- */
+:root {
+    --primary-green: #9dff47;
+    --dark-bg: #0b0b0b;
+    --card-bg: #1a1a1a;
+    --text-white: #ffffff;
+}
 
-.side-menu { height: 100%; width: 0; position: fixed; z-index: 1001; top: 0; left: 0; background: #111; overflow-x: hidden; transition: 0.4s; border-right: 1px solid var(--primary-green); }
-.menu-content { width: 280px; padding-top: 20px; }
-.menu-btn { padding: 12px; color: #000; display: block; border: none; background: var(--primary-green); width: 85%; margin: 10px auto; font-weight: bold; border-radius: 5px; cursor: pointer; text-transform: uppercase; }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--dark-bg);
+    color: var(--text-white);
+    user-select: none;
+}
 
-.search-box { margin: 15px; display: flex; gap: 8px; }
-.search-box input { flex: 1; padding: 12px; border-radius: 5px; background: #222; color: white; border: 1px solid #333; }
-#searchBtn { background: var(--primary-green); color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 5px; }
+/* --- Header & Navigation --- */
+header {
+    padding: 15px;
+    background: #111;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-green);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
-.home-nav-btn { background: transparent; color: var(--primary-green); border: 1px solid var(--primary-green); padding: 8px 20px; border-radius: 5px; font-weight: bold; margin-bottom: 5px; cursor: pointer; }
+h1 {
+    font-weight: 900;
+    margin: 0;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-.movie-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 12px; }
-.movie-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; border: 1px solid #222; }
-.movie-card img { width: 100%; height: 250px; object-fit: cover; }
-.badge-area { padding: 10px 5px; text-align: center; }
-.dubbed-badge { background: #2b4d13; color: var(--primary-green); padding: 4px 10px; font-size: 11px; font-weight: bold; border-radius: 4px; border: 1px solid #3e6d1b; display: inline-block; margin-bottom: 5px; }
-.hd-badge { color: #f1c40f; font-size: 10px; font-weight: bold; display: block; }
-.movie-info { padding: 5px 10px 10px; font-size: 13px; text-align: center; font-weight: bold; }
+h1 span {
+    color: var(--primary-green);
+}
 
-.pagination { padding: 25px; display: flex; justify-content: center; gap: 10px; }
-.pagination button { background: var(--primary-green); border: none; padding: 10px 20px; font-weight: bold; border-radius: 5px; }
-.floating-download { width: 90%; padding: 15px; background: #e50914; color: white; border: none; font-weight: bold; border-radius: 8px; margin: 15px auto; display: block; }
-.fast-server { background: #2196F3; }
+.menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    left: 15px;
+    top: 12px;
+    color: var(--primary-green);
+}
+
+/* --- Side Menu --- */
+.side-menu {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    left: 0;
+    background: #111;
+    overflow-x: hidden;
+    transition: 0.4s;
+    border-right: 1px solid var(--primary-green);
+}
+
+.menu-content {
+    width: 280px;
+    padding-top: 20px;
+}
+
+.menu-content h3 {
+    text-align: center;
+    color: var(--primary-green);
+    font-size: 18px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.menu-btn {
+    padding: 12px;
+    color: #000;
+    display: block;
+    border: none;
+    background: var(--primary-green);
+    width: 85%;
+    margin: 10px auto;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.menu-btn:hover {
+    transform: scale(1.05);
+    background: #b6ff7a;
+}
+
+.menu-divider {
+    height: 1px;
+    background: #333;
+    margin: 20px auto;
+    width: 85%;
+}
+
+/* --- Search Box --- */
+.search-box {
+    margin: 15px;
+    display: flex;
+    gap: 8px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 5px;
+    background: #222;
+    color: white;
+    border: 1px solid #333;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: var(--primary-green);
+}
+
+#searchBtn {
+    background: var(--primary-green);
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.home-nav-btn {
+    background: transparent;
+    color: var(--primary-green);
+    border: 1px solid var(--primary-green);
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+/* --- Movie Grid --- */
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 12px;
+}
+
+.movie-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #222;
+    transition: 0.3s;
+}
+
+.movie-card:hover {
+    border-color: var(--primary-green);
+}
+
+.movie-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.movie-info {
+    padding: 8px 10px;
+    font-size: 13px;
+    text-align: center;
+    font-weight: bold;
+    height: 35px;
+    overflow: hidden;
+}
+
+.badge-area {
+    padding: 5px 5px 12px;
+    text-align: center;
+}
+
+.dubbed-badge {
+    background: #2b4d13;
+    color: var(--primary-green);
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 1px solid #3e6d1b;
+    display: inline-block;
+}
+
+.hd-badge {
+    color: #f1c40f;
+    font-size: 10px;
+    font-weight: bold;
+    display: block;
+    margin-top: 5px;
+}
+
+/* --- NEW Professional Pagination --- */
+.pagination-wrapper {
+    padding: 25px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background: #000;
+}
+
+.total-pages-label {
+    color: var(--primary-green);
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.page-numbers-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+}
+
+.pg-btn {
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 10px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.pg-btn.active {
+    background: var(--primary-green);
+    color: #000;
+    border-color: var(--primary-green);
+}
+
+.pg-btn:hover:not(.active) {
+    background: #333;
+}
+
+/* --- Details Page & Buttons --- */
+#movieDetailsPage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-bg);
+    z-index: 2000;
+    overflow-y: auto;
+}
+
+.detail-nav {
+    padding: 15px;
+    background: #111;
+    border-bottom: 1px solid #333;
+}
+
+.back-btn {
+    background: transparent;
+    color: var(--primary-green);
+    border: 1px solid var(--primary-green);
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.floating-download {
+    width: 90%;
+    padding: 16px;
+    background: #e50914; /* Netflix Red */
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    margin: 15px auto;
+    display: block;
+    font-size: 16px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.fast-server {
+    background: #2196F3; /* Server Blue */
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #666;
+    font-size: 12px;
+    border-top: 1px solid #222;
+}
+
+/* --- Responsive Adjustments --- */
+@media (min-width: 600px) {
+    .movie-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+      }
+  
