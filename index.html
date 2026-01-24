@@ -31,6 +31,7 @@
                     <button class="menu-btn" onclick="loadCategory('thriller.json')">🔪 Thriller</button>
                     <button class="menu-btn" onclick="loadCategory('tv_shows.json')">📺 TV Shows</button>
                     <button class="menu-btn" onclick="loadCategory('adult.json')">🔞 18+ Adult</button>
+                    <button class="menu-btn" onclick="loadCategory('lustprime.json')">🔞 Lust Prime (18+)</button>
                     <div class="menu-divider"></div>
                     <button class="menu-btn" style="background: #4CAF50; color: white;" onclick="shareWebsite()">🔗 Share Website</button>
                     <button class="menu-btn" style="background: #0088cc; color: white;" onclick="window.open('https://t.me/movies4uapk', '_blank')">✈ Join Telegram</button>
@@ -38,33 +39,31 @@
             </div>
 
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search 12,000+ movies..." onkeydown="if(event.key==='Enter') performSearch()">
+                <input type="text" id="searchInput" placeholder="Search 12,000+ movies...">
                 <button id="searchBtn" onclick="performSearch()">SEARCH</button>
             </div>
 
-            <div class="nav-links">
+            <div class="nav-links" style="text-align: center;">
                 <button class="home-nav-btn" onclick="window.location.href='/'">🏠 HOME PAGE</button>
             </div>
         </header>
 
         <div id="movieGrid" class="movie-grid"></div>
 
-        <div class="pagination">
-            <button id="prevBtn" onclick="prevPage()">← Prev</button>
-            <span id="pageStatus">Page 1</span>
-            <button id="nextBtn" onclick="nextPage()">Next →</button>
-        </div>
+        <div id="paginationGroup" class="pagination-wrapper"></div>
         
         <footer>© 2026 My Movies Fun - All Rights Reserved</footer>
     </div>
 
     <div id="movieDetailsPage" style="display: none;">
         <nav class="detail-nav"><button onclick="closeDetails()" class="back-btn">✕ Back</button></nav>
-        <div class="detail-content">
+        <div class="detail-content" style="text-align: center; padding: 20px;">
             <h2 id="detailTitle"></h2>
-            <div class="detail-img-container"><img id="detailImg" src=""></div>
-            <button id="goToDownload" class="floating-download">↓ DOWNLOAD NOW ↓</button>
-            <button id="fastServerBtn" class="floating-download fast-server">↓ FAST SERVER (HD) ↓</button>
+            <div class="detail-img-container"><img id="detailImg" src="" style="width: 100%; max-width: 300px; border-radius: 10px;"></div>
+            <div style="margin-top: 20px;">
+                <button id="goToDownload" class="floating-download">↓ DOWNLOAD NOW ↓</button>
+                <button id="fastServerBtn" class="floating-download fast-server">↓ FAST SERVER (HD) ↓</button>
+            </div>
         </div>
     </div>
 
