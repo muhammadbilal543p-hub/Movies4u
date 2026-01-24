@@ -2,78 +2,157 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <meta name="google-site-verification" content="CvMqruakDQ3xK8114uASKY6AyUMFbq0I5POuexhosQ0" />
-    <meta name="monetag" content="eb32fd97ed51eef3b357853866014337">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY MOVIES FUN - 12,000+ Movies</title>
+    <style>
+        :root { --main-green: #a2ff00; --bg-dark: #121212; --card-bg: #1e1e1e; }
+        body { background-color: var(--bg-dark); color: white; font-family: sans-serif; margin: 0; padding: 0; }
+        header { padding: 20px; text-align: center; border-bottom: 2px solid var(--main-green); }
+        .logo { font-size: 24px; font-weight: bold; color: white; }
+        .logo span { color: var(--main-green); }
+        
+        /* Search Box */
+        .search-container { padding: 20px; text-align: center; }
+        input[type="text"] { width: 60%; padding: 12px; border-radius: 5px; border: none; outline: none; }
+        .btn-search { padding: 12px 25px; background: var(--main-green); border: none; cursor: pointer; font-weight: bold; border-radius: 5px; }
 
-    <title>My Movies Fun - Premium HD Streaming</title>
-    
-    <script src="https://quge5.com/88/tag.min.js" data-zone="204343" async data-cfasync="false"></script>
-    <link rel="stylesheet" href="style.css">
+        /* Movie Grid */
+        .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 20px; }
+        .movie-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; text-align: center; border: 1px solid #333; transition: 0.3s; }
+        .movie-card:hover { border-color: var(--main-green); transform: translateY(-5px); }
+        .movie-card img { width: 100%; height: 230px; object-fit: cover; }
+        .movie-card h3 { font-size: 14px; margin: 10px; height: 35px; overflow: hidden; }
+        .badge { background: #2c3e50; color: var(--main-green); padding: 5px; font-size: 12px; border-radius: 3px; display: inline-block; margin-bottom: 10px; }
+
+        /* Pagination Styling */
+        .pagination-wrapper { margin: 40px 0; text-align: center; }
+        .pagination-info { color: var(--main-green); margin-bottom: 15px; font-size: 18px; font-weight: bold; }
+        .pagination-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
+        .pagination-buttons button { background: #222; color: white; border: 1px solid #444; padding: 10px 15px; cursor: pointer; border-radius: 5px; min-width: 45px; }
+        .pagination-buttons button.active { background: var(--main-green); color: black; font-weight: bold; border-color: var(--main-green); }
+        .pagination-buttons button:hover:not(.active) { background: #444; }
+        .dots { color: #777; padding: 10px; }
+
+        footer { text-align: center; padding: 20px; border-top: 1px solid #333; font-size: 14px; color: #777; }
+    </style>
 </head>
 <body>
-    <div id="mainPage">
-        <header>
-            <div class="header-top">
-                <span class="menu-icon" onclick="toggleMenu()">☰</span>
-                <h1>MY MOVIES <span>FUN</span></h1>
-            </div>
+
+<header>
+    <div class="logo">MY MOVIES <span>FUN</span></div>
+</header>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search 12,000+ movies...">
+    <button class="btn-search" onclick="searchMovies()">SEARCH</button>
+</div>
+
+<div id="movieGrid" class="movie-grid">
+    </div>
+
+<div class="pagination-wrapper">
+    <div id="paginationInfo" class="pagination-info"></div>
+    <div id="paginationButtons" class="pagination-buttons"></div>
+</div>
+
+<footer>© 2026 My Movies Fun - All Rights Reserved</footer>
+
+<script>
+    let allMovies = [];
+    let filteredMovies = [];
+    const moviesPerPage = 20;
+    let currentPage = 1;
+
+    // 1. Load Data from JSON
+    async function loadData() {
+        try {
+            const response = await fetch('movies_data.json');
+            allMovies = await response.json();
+            filteredMovies = allMovies;
             
-            <div id="sideMenu" class="side-menu">
-                <a href="javascript:void(0)" class="closebtn" onclick="toggleMenu()">×</a>
-                <div class="menu-content">
-                    <h3>CATEGORIES</h3>
-                    <button class="menu-btn" onclick="loadCategory('movies_data.json')">🏠 Home</button>
-                    <button class="menu-btn" onclick="loadCategory('hollywood.json')">🇺🇸 Hollywood</button>
-                    <button class="menu-btn" onclick="loadCategory('south.json')">🎬 South Hindi</button>
-                    <button class="menu-btn" onclick="loadCategory('horror.json')">👻 Horror</button>
-                    <button class="menu-btn" onclick="loadCategory('thriller.json')">🔪 Thriller</button>
-                    <button class="menu-btn" onclick="loadCategory('tv_shows.json')">📺 TV Shows</button>
-                    <button class="menu-btn" onclick="loadCategory('adult.json')">🔞 18+ Adult</button>
-                    <button class="menu-btn" onclick="loadCategory('lustprime.json')">🔞 High Adult</button>
-                    
-                    <div class="menu-divider"></div>
-                    <button class="menu-btn" style="background: #4CAF50; color: white;" onclick="shareWebsite()">🔗 Share Website</button>
-                    <button class="menu-btn" style="background: #0088cc; color: white;" onclick="window.open('https://t.me/movies4uapk', '_blank')">✈ Join Telegram</button>
-                </div>
-            </div>
+            // Back-button support: Check URL for page number
+            const urlParams = new URLSearchParams(window.location.search);
+            currentPage = parseInt(urlParams.get('page')) || 1;
+            
+            displayMovies(currentPage);
+        } catch (error) {
+            console.error("Error loading JSON:", error);
+        }
+    }
 
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search 12,000+ movies..." onkeydown="if(event.key==='Enter') performSearch()">
-                <button id="searchBtn" onclick="performSearch()">SEARCH</button>
-            </div>
-
-            <div class="nav-links">
-                <button class="home-nav-btn" onclick="window.location.href='/'">🏠 HOME PAGE</button>
-            </div>
-        </header>
-
-        <div id="movieGrid" class="movie-grid"></div>
-
-        <div class="pagination">
-            <button id="prevBtn" onclick="prevPage()">← Prev</button>
-            <span id="pageStatus">Page 1</span>
-            <button id="nextBtn" onclick="nextPage()">Next →</button>
-        </div>
+    // 2. Display Movies on Grid
+    function displayMovies(page) {
+        const grid = document.getElementById('movieGrid');
+        grid.innerHTML = "";
         
-        <footer>© 2026 My Movies Fun - All Rights Reserved</footer>
-    </div>
+        const start = (page - 1) * moviesPerPage;
+        const end = start + moviesPerPage;
+        const paginatedMovies = filteredMovies.slice(start, end);
 
-    <div id="movieDetailsPage" style="display: none;">
-        <nav class="detail-nav">
-            <button onclick="closeDetails()" class="back-btn">✕ Back</button>
-        </nav>
-        <div class="detail-content">
-            <h2 id="detailTitle"></h2>
-            <div class="detail-img-container">
-                <img id="detailImg" src="" alt="Poster">
-            </div>
-            <button id="goToDownload" class="floating-download">↓ DOWNLOAD NOW ↓</button>
-            <button id="fastServerBtn" class="floating-download fast-server">↓ FAST SERVER (HD) ↓</button>
-        </div>
-    </div>
+        paginatedMovies.forEach(movie => {
+            grid.innerHTML += `
+                <div class="movie-card">
+                    <img src="${movie.poster}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/160x230?text=No+Poster'">
+                    <div class="badge">Hindi Dubbed</div>
+                    <h3>${movie.title}</h3>
+                    <button class="btn-search" style="width:90%; margin-bottom:10px;" onclick="window.location.href='${movie.url}'">Download</button>
+                </div>`;
+        });
 
-    <script src="script.js"></script>
+        renderPagination(filteredMovies.length, page);
+    }
+
+    // 3. Smart Pagination Logic (1-10, 11-20...)
+    function renderPagination(totalItems, page) {
+        const totalPages = Math.ceil(totalItems / moviesPerPage);
+        document.getElementById('paginationInfo').innerText = `Total Pages: ${totalPages}`;
+        
+        const container = document.getElementById('paginationButtons');
+        container.innerHTML = "";
+
+        if (page > 1) {
+            container.innerHTML += `<button onclick="changePage(${page - 1})">← Prev</button>`;
+        }
+
+        // Calculate groups of 10
+        let startPage = Math.floor((page - 1) / 10) * 10 + 1;
+        let endPage = Math.min(startPage + 9, totalPages);
+
+        for (let i = startPage; i <= endPage; i++) {
+            container.innerHTML += `
+                <button class="${i === page ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+        }
+
+        if (endPage < totalPages) {
+            container.innerHTML += `<button onclick="changePage(${endPage + 1})">Next Group →</button>`;
+            container.innerHTML += `<span class="dots">...</span>`;
+            container.innerHTML += `<button onclick="changePage(${totalPages})">${totalPages}</button>`;
+        }
+
+        if (page < totalPages) {
+            container.innerHTML += `<button onclick="changePage(${page + 1})">Next</button>`;
+        }
+    }
+
+    // 4. Change Page & Update URL
+    function changePage(pageNum) {
+        currentPage = pageNum;
+        const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?page=' + pageNum;
+        window.history.pushState({path:newurl},'',newurl);
+        displayMovies(pageNum);
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    // 5. Search Function
+    function searchMovies() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        filteredMovies = allMovies.filter(m => m.title.toLowerCase().includes(query));
+        currentPage = 1;
+        displayMovies(1);
+    }
+
+    loadData();
+</script>
+
 </body>
 </html>
