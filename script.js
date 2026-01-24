@@ -4,34 +4,41 @@ let currentPage = 1;
 const moviesPerPage = 20;
 const MONETAG_SMARTLINK = "https://otieu.com/4/10489561";
 
-// --- Browser Back Button Control ---
+// Keyboard Enter Key Search
+document.getElementById('searchInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        performSearch();
+    }
+});
+
+// Browser History Control
 window.onpopstate = function(event) {
     if (event.state) {
         if (event.state.view === 'grid') {
-            // Agar detail page khula hai toh band karke grid dikhao
             document.getElementById('movieDetailsPage').style.display = "none";
             document.getElementById('mainPage').style.display = "block";
-            
-            // Wahi page load karo jo history mein tha
             if (event.state.page) {
                 currentPage = event.state.page;
-                displayMovies(false); // false taake naya history state na bane
+                displayMovies(false);
             }
+        } else if (event.state.view === 'detail') {
+            // Agar detail state hai toh grid chhupao
+            document.getElementById('mainPage').style.display = "none";
+            document.getElementById('movieDetailsPage').style.display = "block";
         }
     }
 };
-
-function toggleMenu() {
-    const menu = document.getElementById("sideMenu");
-    menu.style.width = (menu.style.width === "280px") ? "0px" : "280px";
-}
 
 async function loadCategory(file) {
     try {
         const res = await fetch(`./${file}`);
         allMovies = await res.json();
         filteredMovies = allMovies;
-        currentPage = 1;
+        
+        // Check URL for page parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        currentPage = parseInt(urlParams.get('page')) || 1;
+        
         displayMovies(true);
         if(document.getElementById("sideMenu").style.width === "280px") toggleMenu();
     } catch (error) {
@@ -43,7 +50,6 @@ function displayMovies(updateHistory = true) {
     const grid = document.getElementById('movieGrid');
     grid.innerHTML = "";
 
-    // History save karna jab bhi page change ho (Page 7, Page 6 etc)
     if (updateHistory) {
         history.pushState({view: 'grid', page: currentPage}, "", `?page=${currentPage}`);
     }
@@ -65,11 +71,65 @@ function displayMovies(updateHistory = true) {
         card.onclick = () => openDetails(movie);
         grid.appendChild(card);
     });
-    document.getElementById('pageStatus').innerText = `Page ${currentPage}`;
+    renderPagination();
+}
+
+// SMART GROUPED PAGINATION (1, 2... Next... 10... 20)
+function renderPagination() {
+    const totalPages = Math.ceil(filteredMovies.length / moviesPerPage);
+    const container = document.getElementById('paginationGroup');
+    container.innerHTML = "";
+
+    const info = document.createElement('div');
+    info.className = 'total-pages-label';
+    info.innerText = `Total Pages: ${totalPages} | Current Page: ${currentPage}`;
+    container.appendChild(info);
+
+    const btnContainer = document.createElement('div');
+    btnContainer.className = 'page-numbers-container';
+
+    // Prev Button
+    const prev = document.createElement('button');
+    prev.className = 'pg-btn';
+    prev.innerText = '← Prev';
+    prev.disabled = currentPage === 1;
+    prev.onclick = () => { currentPage--; displayMovies(true); window.scrollTo(0,0); };
+    btnContainer.appendChild(prev);
+
+    // Dynamic Numbers (Grouped)
+    let startPage = Math.floor((currentPage - 1) / 10) * 10 + 1;
+    let endPage = Math.min(startPage + 9, totalPages);
+
+    for (let i = startPage; i <= endPage; i++) {
+        const btn = document.createElement('button');
+        btn.className = `pg-btn ${i === currentPage ? 'active' : ''}`;
+        btn.innerText = i;
+        btn.onclick = () => { currentPage = i; displayMovies(true); window.scrollTo(0,0); };
+        btnContainer.appendChild(btn);
+    }
+
+    // Next Group / Skip to next 10s
+    if (endPage < totalPages) {
+        const nextGroup = document.createElement('button');
+        nextGroup.className = 'pg-btn';
+        nextGroup.innerText = 'Next »';
+        nextGroup.onclick = () => { currentPage = endPage + 1; displayMovies(true); window.scrollTo(0,0); };
+        btnContainer.appendChild(nextGroup);
+    }
+
+    // Final Page shortcut
+    if (totalPages > endPage) {
+        const last = document.createElement('button');
+        last.className = 'pg-btn';
+        last.innerText = totalPages;
+        last.onclick = () => { currentPage = totalPages; displayMovies(true); window.scrollTo(0,0); };
+        btnContainer.appendChild(last);
+    }
+
+    container.appendChild(btnContainer);
 }
 
 function openDetails(movie) {
-    // Detail open karte waqt ek naya state push karo taake back button detail band kare
     history.pushState({view: 'detail', page: currentPage}, ""); 
     
     document.getElementById('detailTitle').innerText = movie.title;
@@ -87,7 +147,7 @@ function openDetails(movie) {
 }
 
 function closeDetails() {
-    history.back(); // Browser back ko trigger karega jo onpopstate handle karega
+    history.back();
 }
 
 function performSearch() {
@@ -97,31 +157,19 @@ function performSearch() {
     displayMovies(true);
 }
 
-function nextPage() {
-    if ((currentPage * moviesPerPage) < filteredMovies.length) {
-        currentPage++;
-        displayMovies(true);
-        window.scrollTo(0, 0);
-    }
-}
-
-function prevPage() {
-    if (currentPage > 1) {
-        currentPage--;
-        displayMovies(true);
-        window.scrollTo(0, 0);
-    }
+function toggleMenu() {
+    const menu = document.getElementById("sideMenu");
+    menu.style.width = (menu.style.width === "280px") ? "0px" : "280px";
 }
 
 function shareWebsite() {
-    const shareUrl = 'https://mymoviesfun.vercel.app/?page=' + currentPage;
+    const shareUrl = window.location.origin + window.location.pathname + '?page=' + currentPage;
     if (navigator.share) {
         navigator.share({ title: 'My Movies Fun', url: shareUrl });
     } else {
-        alert("Link: " + shareUrl);
+        alert("Link copied: " + shareUrl);
     }
 }
 
 // Initial Load
 loadCategory('movies_data.json');
-        
